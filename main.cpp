@@ -72,7 +72,6 @@ void edit_line(std::ifstream &file, int current_line,
     if (current_line >= lines.size()) {
 
         while (current_line > lines.size()) {
-            std::cout << "bigger" << current_line << ", " << line_number << '\n';
             lines.push_back("");
             line_number++;
         }
@@ -91,7 +90,7 @@ int main(int argc, char *argv[]) {
         std::ifstream file(file_name);
         std::vector<std::string> lines;
         std::string line;
-        int line_number;
+        int line_number = 0;
 
         if (file.is_open()) {
             while (std::getline(file, line)) {
@@ -100,8 +99,6 @@ int main(int argc, char *argv[]) {
         }
 
         while (editing) {
-            clear_screen();
-            prompt(lines);
             std::string command;
             std::getline(std::cin, command);
 
@@ -125,12 +122,12 @@ int main(int argc, char *argv[]) {
                     edit_line(file, line_number, lines, new_content);
                     continue;
                 }
+
+            }
             if (command == "h") {
                 std::cout << "list of commands: \n";
                 print_commands();
                 continue;
-            }
-
             }
             try {
                 line_number = std::stoi(command);
